@@ -1,0 +1,155 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Neo-Brutalism Floating Design</title>
+  <style>
+    body {
+      font-family: 'Arial', sans-serif;
+      background-color: #f9f9f9;
+      margin: 0;
+      padding: 20px;
+      overflow-x: hidden;
+    }
+
+    .container {
+      max-width: 600px;
+      margin: 0 auto;
+      background: white;
+      border: 5px solid black;
+      padding: 20px;
+      position: relative;
+    }
+
+    .header {
+      text-align: center;
+      position: relative;
+    }
+
+    .title {
+      font-size: 2rem;
+      font-weight: bold;
+      background-color: #b0f1a1;
+      padding: 10px;
+      display: inline-block;
+      border: 3px solid black;
+      animation: float 3s infinite ease-in-out;
+    }
+
+    .subtitle {
+      font-size: 1rem;
+      background-color: #f9b4e4;
+      padding: 5px;
+      display: inline-block;
+      border: 2px solid black;
+      margin-top: 10px;
+      animation: float 2.5s infinite ease-in-out;
+    }
+
+    .image-section {
+      text-align: center;
+      margin: 20px 0;
+      position: relative;
+    }
+
+    .person-image {
+      width: 150px;
+      height: auto;
+      border-radius: 50%;
+      border: 5px solid #ffcc00;
+      z-index: 2;
+      position: relative;
+      animation: float 3s infinite ease-in-out;
+    }
+
+    .icon {
+      width: 40px;
+      height: 40px;
+      position: absolute;
+      background-color: #ffcc00;
+      border: 3px solid black;
+      border-radius: 50%;
+      z-index: 1;
+      animation: float 4s infinite ease-in-out;
+    }
+
+    .icon.icon-behind {
+      top: 30px;
+      left: -30px;
+      animation-delay: 0.5s;
+    }
+
+    .icon.icon-front {
+      top: 50%;
+      left: 50%;
+      transform: translate(-50%, -50%);
+      animation-delay: 0.8s;
+    }
+
+    .info {
+      display: flex;
+      justify-content: space-between;
+      gap: 10px;
+      margin-top: 20px;
+      animation: float 3.5s infinite ease-in-out;
+    }
+
+    .label {
+      background-color: #f4f4f4;
+      padding: 5px;
+      border: 2px solid black;
+      font-size: 0.8rem;
+    }
+
+    .name {
+      background-color: #ffcc00;
+      padding: 5px;
+      border: 2px solid black;
+      font-size: 1rem;
+      font-weight: bold;
+    }
+
+    /* Tambahkan animasi untuk elemen melayang */
+    @keyframes float {
+      0% {
+        transform: translateY(0);
+      }
+      50% {
+        transform: translateY(-10px);
+      }
+      100% {
+        transform: translateY(0);
+      }
+    }
+  </style>
+</head>
+<body>
+  <div class="container">
+    <div class="header">
+      <h1 class="title">Liceria Siniar</h1>
+      <p class="subtitle">Proposal Program Siniar dan Laporan Kinerja Siniar</p>
+    </div>
+    <div class="image-section">
+      <!-- Ikon melayang di belakang gambar -->
+      <div class="icon icon-behind"></div>
+      
+      <!-- Gambar utama -->
+      <img src="https://via.placeholder.com/150" alt="Person" class="person-image">
+      
+      <!-- Ikon melayang di depan gambar -->
+      <div class="icon icon-front"></div>
+    </div>
+    <div class="info">
+      <div class="presented-by">
+        <span class="label">Diajukan Kepada:</span>
+        <span class="name">Ketut Susilo</span>
+      </div>
+      <div class="prepared-by">
+        <span class="label">Dipresentasikan Oleh:</span>
+        <span class="name">Cahaya Dewi</span>
+      </div>
+    </div>
+  </div>
+</body>
+</html>

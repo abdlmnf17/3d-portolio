@@ -1,0 +1,263 @@
+import { motion, AnimatePresence } from 'framer-motion';
+import React, { useState, useEffect, useRef } from 'react';
+import { Code, Terminal, Database, Cloud, Settings, Cpu, Github, Linkedin, Twitter, Box, Wifi, Layers, Monitor, Lock, Server } from 'lucide-react';
+
+const QUOTES = [
+  "Design is not just what it looks like and feels like. Design is how it works. - Steve Jobs",
+  "Simplicity is the ultimate sophistication. - Leonardo da Vinci",
+  "Good design is obvious. Great design is transparent. - Joe Sparano",
+  "Less is more. - Ludwig Mies van der Rohe",
+  "Make it simple, but significant. - Don Draper"
+];
+
+const TEXT_TO_TYPE = "SOFTWARE ENGINEER";
+
+const Preloader = ({ onComplete }) => {
+  const [currentQuote] = useState(() => QUOTES[Math.floor(Math.random() * QUOTES.length)]);
+  const [displayedQuote, setDisplayedQuote] = useState("");
+
+  useEffect(() => {
+    let currentIndex = 0;
+    const interval = setInterval(() => {
+      if (currentIndex <= currentQuote.length) {
+        setDisplayedQuote(currentQuote.slice(0, currentIndex));
+        currentIndex++;
+      } else {
+        setTimeout(() => {
+          onComplete();
+        }, 1000);
+        clearInterval(interval);
+      }
+    }, 50);
+
+    return () => clearInterval(interval);
+  }, [currentQuote, onComplete]);
+
+  return (
+    <motion.div
+      initial={{ opacity: 1 }}
+      exit={{ opacity: 0, y: '-100%' }}
+      transition={{ duration: 0.8, ease: "easeInOut" }}
+      className="fixed inset-0 bg-white flex items-center justify-center z-50"
+    >
+      <motion.div className="text-2xl md:text-3xl font-medium text-orange-500 max-w-2xl text-center px-6">
+        <span className="inline-block">{displayedQuote}</span>
+        <span className="inline-block w-1 h-6 bg-orange-500 animate-blink ml-1"></span>
+      </motion.div>
+    </motion.div>
+  );
+};
+
+const TypingText = () => {
+  const [displayText, setDisplayText] = useState("");
+  const [isComplete, setIsComplete] = useState(false);
+  const [isErasing, setIsErasing] = useState(false);
+  
+  useEffect(() => {
+    const typeNextCharacter = () => {
+      setDisplayText(current => {
+        if (isErasing) {
+          const newText = current.slice(0, -1);
+          if (newText.length === 0) {
+            setIsErasing(false);
+          }
+          return newText;
+        } else {
+          const newText = TEXT_TO_TYPE.slice(0, current.length + 1);
+          if (newText === TEXT_TO_TYPE) {
+            setIsComplete(true);
+            setTimeout(() => {
+              setIsErasing(true);
+            },2000);
+          }
+          return newText;
+        }
+      });
+    };
+
+    const timer = setTimeout(
+      typeNextCharacter,
+      isErasing ? 100 : 200
+    );
+
+    return () => clearTimeout(timer);
+  }, [displayText, isComplete, isErasing]);
+
+  return (
+    <span>{displayText}<span className="inline-block w-1 h-8 bg-black-500 animate-blink ml-1"></span></span>
+  );
+};
+
+const HeroSection = () => {
+  const [isLoading, setIsLoading] = useState(true);
+  const [rotation, setRotation] = useState({ x: 0, y: 0 });
+  const headerRef = useRef(null);
+
+  const handleMouseMove = (e) => {
+    if (headerRef.current) {
+      const rect = headerRef.current.getBoundingClientRect();
+      const x = (e.clientY - rect.top - rect.height / 2) / 25;
+      const y = (e.clientX - rect.left - rect.width / 2) / 25;
+      setRotation({ x, y });
+    }
+  };
+
+  const icons = [
+    { Icon: Code, size: 40, color: 'text-blue-500', rotation: -15 },
+    { Icon: Terminal, size: 45, color: 'text-green-500', rotation: 15 },
+    { Icon: Database, size: 35, color: 'text-purple-500', rotation: -20 },
+    { Icon: Cloud, size: 50, color: 'text-orange-500', rotation: 25 },
+    { Icon: Settings, size: 38, color: 'text-pink-500', rotation: -10 },
+    { Icon: Cpu, size: 42, color: 'text-yellow-500', rotation: 20 },
+    { Icon: Box, size: 38, color: 'text-red-500', rotation: 30 },
+    { Icon: Wifi, size: 36, color: 'text-indigo-500', rotation: -25 },
+    { Icon: Layers, size: 44, color: 'text-teal-500', rotation: 18 },
+    { Icon: Monitor, size: 46, color: 'text-cyan-500', rotation: -22 },
+    { Icon: Lock, size: 34, color: 'text-rose-500', rotation: 28 },
+    { Icon: Server, size: 40, color: 'text-amber-500', rotation: -12 }
+  ];
+
+  const IconsLayer = ({ position = "top" }) => (
+    <div className={`absolute w-full ${position === "top" ? "top-0" : "bottom-0"} left-0 overflow-hidden h-40 pointer-events-none`}>
+      {icons.map((el, i) => (
+        <motion.div
+          key={`${position}-${i}`}
+          className={`absolute ${el.color}`}
+          initial={{ scale: 0, rotate: el.rotation }}
+          animate={{ 
+            scale: [0, 1.2, 1],
+            rotate: [el.rotation * 2, el.rotation],
+            z: [0, 20, 0],
+            y: [0, -10, 0]
+          }}
+          transition={{
+            duration: 1.5,
+            delay: i * 0.1,
+            ease: "easeOut",
+            repeat: Infinity,
+            repeatType: "reverse"
+          }}
+          style={{
+            left: `${5 + i * 8}%`,
+            top: position === "top" ? `${Math.sin(i) * 30 + 50}px` : `${Math.cos(i) * 30 + 50}px`,
+            transformStyle: "preserve-3d"
+          }}
+        >
+          <el.Icon size={el.size} className="filter drop-shadow-lg" />
+        </motion.div>
+      ))}
+    </div>
+  );
+
+  return (
+    <>
+      <AnimatePresence mode="wait">
+        {isLoading && <Preloader onComplete={() => setIsLoading(false)} />}
+      </AnimatePresence>
+
+      <section className="relative min-h-screen bg-orange-50 overflow-hidden">
+        <IconsLayer position="top" />
+        
+        <div className="max-w-5xl mx-auto px-6 py-16 relative mt-40">
+          <div className="grid grid-cols-1 lg:grid-cols-2 gap-12 items-center">
+            <motion.div
+              className="flex justify-center lg:justify-start"
+              initial={{ opacity: 0, x: -100 }}
+              animate={{ opacity: 1, x: 0 }}
+              transition={{ duration: 0.8, delay: 0.2 }}
+            >
+              <motion.div className="relative w-40 h-40">
+                <div className="absolute inset-0 bg-gradient-to-r from-orange-400 to-orange-600 rounded-full blur-lg opacity-75" />
+                <div className="relative w-full h-full rounded-full overflow-hidden border-4 border-orange-200 shadow-2xl">
+                  <img
+                    src="/path-to-profile-image.jpg"
+                    alt="Profile"
+                    className="w-full h-full object-cover"
+                  />
+                </div>
+              </motion.div>
+            </motion.div>
+
+            <div className="text-center lg:text-left space-y-6">
+              <motion.div
+                ref={headerRef}
+                onMouseMove={handleMouseMove}
+                style={{
+                  transform: `perspective(1000px) rotateX(${rotation.x}deg) rotateY(${rotation.y}deg)`,
+                  transition: 'transform 0.1s ease-out'
+                }}
+                className="space-y-4"
+              >
+                <motion.h2 
+                  className="text-3xl font-bold text-black-600"
+                  initial={{ opacity: 0 }}
+                  animate={{ opacity: 1 }}
+                  transition={{ duration: 0.8, delay: 0.5 }}
+                >
+                  Hi, I'm ADAM DARY ILHAM
+                </motion.h2>
+                
+                <h1 className="text-2xl md:text-4xl font-black text-orange-500 font-['Space_Grotesk'] tracking-tight leading-none">
+                  AS A  <TypingText />
+                </h1>
+              </motion.div>
+
+              <motion.p 
+                className="text-xl text-gray-600"
+                initial={{ opacity: 0, y: 20 }}
+                animate={{ opacity: 1, y: 0 }}
+                transition={{ duration: 0.8, delay: 0.1 }}
+              >
+                Crafting exceptional digital experiences through creative frontend development
+              </motion.p>
+
+              <motion.div 
+                className="flex flex-wrap gap-4 justify-center lg:justify-start"
+                initial={{ opacity: 0, y: 20 }}
+                animate={{ opacity: 1, y: 0 }}
+                transition={{ duration: 0.8, delay: 0.9 }}
+              >
+                <motion.button
+                  className="px-8 py-3 bg-gradient-to-r from-orange-400 to-orange-600 rounded-full text-white font-semibold shadow-lg"
+                  whileHover={{ scale: 1.05 }}
+                  whileTap={{ scale: 0.95 }}
+                >
+                  View Projects
+                </motion.button>
+                <motion.button
+                  className="px-8 py-3 border-2 border-orange-500 text-orange-500 rounded-full font-semibold hover:bg-orange-500 hover:text-white transition-colors"
+                  whileHover={{ scale: 1.05 }}
+                  whileTap={{ scale: 0.95 }}
+                >
+                  Contact Me
+                </motion.button>
+              </motion.div>
+
+              <motion.div 
+                className="flex gap-4 justify-center lg:justify-start"
+                initial={{ opacity: 0, y: 20 }}
+                animate={{ opacity: 1, y: 0 }}
+                transition={{ duration: 0.8, delay: 1.1 }}
+              >
+                {[Github, Linkedin, Twitter].map((Icon, index) => (
+                  <motion.a
+                    key={index}
+                    href="#"
+                    className="p-2 bg-orange-100 rounded-full hover:bg-orange-200 transition-colors"
+                    whileHover={{ scale: 1.2 }}
+                  >
+                    <Icon className="w-6 h-6 text-orange-600" />
+                  </motion.a>
+                ))}
+              </motion.div>
+            </div>
+          </div>
+        </div>
+{/* 
+        <IconsLayer position="bottom" /> */}
+      </section>
+    </>
+  );
+};
+
+export default HeroSection;
