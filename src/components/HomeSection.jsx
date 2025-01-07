@@ -42,7 +42,7 @@ const SplineViewer = () => {
     >
       <spline-viewer
         url="https://prod.spline.design/NrfVJbZh0ZBaCcdN/scene.splinecode"
-        className="w-full h-full object-contain shadow-2xl rounded-2xl"
+        className="w-full h-full object-contain"
         style={{
           transform: 'scale(1)', 
           transformOrigin: 'center',
@@ -69,10 +69,8 @@ const TechCard = ({ icon, title, description, color }) => {
         backdrop-blur-sm border border-purple-500/20 rounded-2xl p-8
         flex flex-col gap-6 overflow-hidden">
         
-        {/* Glowing background effect */}
         <div className="absolute inset-0 bg-gradient-to-br from-purple-500/10 to-blue-500/10 opacity-50" />
         
-        {/* Icon */}
         <motion.div 
           initial={{ scale: 0.8 }}
           animate={{ scale: 1 }}
@@ -82,7 +80,6 @@ const TechCard = ({ icon, title, description, color }) => {
           {icon}
         </motion.div>
         
-        {/* Title */}
         <motion.h3 
           initial={{ y: 20, opacity: 0 }}
           animate={{ y: 0, opacity: 1 }}
@@ -92,7 +89,6 @@ const TechCard = ({ icon, title, description, color }) => {
           {title}
         </motion.h3>
         
-        {/* Description */}
         <motion.p
           initial={{ y: 20, opacity: 0 }}
           animate={{ y: 0, opacity: 1 }}
@@ -102,15 +98,13 @@ const TechCard = ({ icon, title, description, color }) => {
           {description}
         </motion.p>
         
-        {/* Animated border */}
         <motion.div 
           initial={{ width: "0%" }}
           animate={{ width: "100%" }}
-          transition={{ duration : 1, delay: 0.5 }}
-          className="absolute bottom-0 left-0 h-1 bg-gradient-to-r from-purple-600 via-blue-600 to-purple-600"
+          transition={{ duration: 1, delay: 0.5 }}
+          className="absolute bottom-0 left- 0 h-1 bg-gradient-to-r from-purple-600 via-blue-600 to-purple-600"
         />
         
-        {/* Corner accent */}
         <motion.div 
           initial={{ scale: 0 }}
           animate={{ scale: 1 }}
@@ -170,7 +164,7 @@ const TechShowcase = () => {
       <motion.h2 
         initial={{ opacity: 0, y: -20 }}
         animate={{ opacity: 1, y: 0 }}
-        className="text-2xl font-bold text-transparent bg-clip-text bg-gradient-to-r from-purple-500 to-pink-600 drop-shadow-[0_2px_4px_rgba(0,0,0,0.3)]"
+        className="text-4xl font-bold text-transparent bg-clip-text bg-gradient-to-r from-purple-500 to-pink-600 drop-shadow-[0_2px_4px_rgba(0,0,0,0.3)]"
       >
         <Typewriter
           words={['Tech Ecosystem']}
@@ -195,11 +189,10 @@ const TechShowcase = () => {
         </AnimatePresence>
       </div>
 
-      {/* Navigation buttons */}
-      <div className="flex space-x-4">
+      {/* <div className="flex space-x-4">
         <button onClick={prevCard} className="p-2 bg-purple-600 text-white rounded-full">Prev</button>
         <button onClick={nextCard} className="p-2 bg-purple-600 text-white rounded-full">Next</button>
-      </div>
+      </div> */}
     </div>
   );
 };
@@ -231,7 +224,7 @@ const HeroSection = () => {
   return (
     <motion.div 
       initial={{ backgroundColor: 'rgba(0,0,0,0)' }}
-      animate={{ backgroundColor: 'rgba(0,0,0,1)' }}
+      animate={{ backgroundColor: 'rgba(0 ,0,0,1)' }}
       transition={{ duration: 1 }}
       className="min-h-screen flex flex-col lg:flex-row items-stretch justify-center bg-gradient-to-b from-black via-black to-purple-900 text-white p-4 lg:p-12"
     >
@@ -242,11 +235,11 @@ const HeroSection = () => {
         transition={{ duration: 0.8, delay: 0.2 }}
         className="w-full lg:w-1/3 p-6 flex flex-col justify-center space-y-6 shadow-2xl rounded-2xl bg-black/20 backdrop-blur-sm"
       >
-        <h1 className="text-3xl lg:text-4xl font-bold bg-gradient-to-r from-purple-400 to-blue-600 text-transparent bg-clip-text drop-shadow-[0_2px_4px_rgba(0,0,0,0.3)]">
+        <h1 className="text-5xl lg:text-6xl font-bold bg-gradient-to-r from-purple-400 to-blue-600 text-transparent bg-clip-text drop-shadow-[0_2px_4px_rgba(0,0,0,0.3)]">
           Adam Dary
         </h1>
         
-        <div className="text-lg lg:text-xl font-light text-gray-300 drop-shadow-[0_2px_4px_rgba(0,0,0,0.3)]">
+        <div className="text-lg lg:text-xl font-light text-gray-300 drop-shadow-[0_2px_4px rgba(0,0,0,0.3)]">
           <Typewriter
             words={['Creative Developer', 'Full Stack Engineer', 'UI/UX Designer']}
             loop={true}
@@ -271,7 +264,7 @@ const HeroSection = () => {
               rel="noopener noreferrer"
               whileHover={{ scale: 1.2, rotate: 5 }}
               whileTap={{ scale: 0.9 }}
-              className={`${social.color} transition-all duration-300 drop-shadow-[0_2px_4px_rgba(0,0,0,0.3)]`}
+              className={`${social.color} transition-all duration-300 drop-shadow-[0_2px_4px rgba(0,0,0,0.3)]`}
             >
               {social.icon}
             </motion.a>

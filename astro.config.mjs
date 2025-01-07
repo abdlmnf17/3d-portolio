@@ -1,7 +1,5 @@
 import { defineConfig } from 'astro/config';
-
 import react from '@astrojs/react';
-
 import tailwind from '@astrojs/tailwind';
  
 export default defineConfig({
@@ -10,6 +8,8 @@ export default defineConfig({
     optimizeDeps: {
       include: ['framer-motion', 'lucide-react']
     }
-  }
-});
+  },  // KOMA DITAMBAHKAN DI SINI
 
+  site: 'https://abdlmnf17.github.io',
+  base: '/portofolio-3d/',  
+});
