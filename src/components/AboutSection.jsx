@@ -1,4 +1,4 @@
-import React, { useRef } from 'react';
+import React, { useRef, useState } from 'react';
 import { DotLottieReact } from '@lottiefiles/dotlottie-react';
 import { motion } from 'framer-motion';
 import ScrollProgressBar from './ScrollProgressBar';
@@ -15,6 +15,112 @@ import {
 import ParallaxElement from './ParallaxElement';
 import { SiReact, SiNodedotjs, SiFigma, SiAndroid, SiSololearn, SiDocker } from 'react-icons/si';
 import PortfolioSection from './ProjectsSection';
+
+const ContactSection = () => {
+  const [name, setName] = useState('');
+  const [email, setEmail] = useState('');
+  const [message, setMessage] = useState('');
+
+  const handleSubmit = (e) => {
+    e.preventDefault();
+    
+    // Encode the message for URL
+    const encodedMessage = encodeURIComponent(
+      `Hello,\n\nMy name is ${name}.\nMy email is ${email}.\n\nMessage:\n${message}`
+    );
+
+    // Open default email client with pre-filled content
+    window.location.href = `mailto:abdlmnf17@gmail.com?subject=Contact%20Form%20Submission&body=${encodedMessage}`;
+  };
+
+  return (
+    <motion.div
+      className="mt-32 grid grid-cols-1 md:grid-cols-2 gap-8 text-center"
+      initial={{ opacity: 0, y: 50 }}
+      whileInView={{ opacity: 1, y: 0 }}
+      transition={{ duration: 0.6 }}
+    >
+      <div className="flex flex-col items-center">
+        <h3 className="text-4xl font-bold text-white mb-8 tracking-tight">Get In Touch</h3>
+        <p className="text-lg text-gray-300 mb-6">We'd love to hear from you! Please fill out the form below.</p>
+        <form 
+          onSubmit={handleSubmit} 
+          className="flex flex-col w-full max-w-md"
+        >
+          <input
+            type="text"
+            placeholder="Your Name"
+            value={name}
+            onChange={(e) => setName(e.target.value)}
+            className="mb-4 p-3 rounded-md border border-gray-300 focus:outline-none focus:ring-2 focus:ring-purple-500 transition duration-300 ease-in-out"
+            required
+          />
+          <input
+            type="email"
+            placeholder="Your Email"
+            value={email}
+            onChange={(e) => setEmail(e.target.value)}
+            className="mb-4 p-3 rounded-md border border-gray-300 focus:outline-none focus:ring-2 focus:ring-purple-500 transition duration-300 ease-in-out"
+            required
+          />
+          <textarea
+            placeholder="Your Message"
+            value={message}
+            onChange={(e) => setMessage(e.target.value)}
+            className="mb-4 p-3 rounded-md border border-gray-300 focus:outline-none focus:ring-2 focus:ring-purple-500 transition duration-300 ease-in-out"
+            rows="4"
+            required
+          />
+          <button
+            type="submit"
+            className="px-8 py-4 bg-gradient-to-r from-purple-600 to-purple-800 text-white rounded-full font-medium hover:from-purple-700 hover:to-purple-900 transition-colors shadow-lg shadow-purple-500/25 transform hover:scale-105"
+          >
+            Send Message
+          </button>
+        </form>
+      </div>
+
+      <div className="flex flex-col items-center" id='contact'>
+        <h3 className="text-4xl font-bold text-white mb-8 tracking-tight">Contact Info</h3>
+        <p className="text-lg text-gray-300 mb-4">Or reach us at:</p>
+        <div className="text-gray-400 mb-6">
+          <p className="text-sm">Phone: +6285775450507</p>
+          <p className="text-sm">Email: adamilham3004@gmail.com</p>
+          <p className="text-sm">LinkedIn: <a href="https://www.linkedin.com/in/adamdaryilham" className="text-purple-400 hover:underline">www.linkedin.com/in/adamdaryilham</a></p>
+          <p className="text-sm">GitHub: <a href="https://github.com/adamilham-dev" className="text-purple-400 hover:underline">https://github.com/adamilham-dev</a></p>
+          <p className="text-sm">Address: Jl. Pondok Kelapa Timur Blok E4 No. 8, Pondok Kelapa, Duren Sawit, Jakarta Timur</p>
+        </div>
+
+        <div className="flex justify-center space-x-4">
+          <a 
+            href="https://wa.me/+6285775450507" 
+            className="text-gray-400 hover:text-green-500 transition duration-300"
+          >
+            <SiWhatsapp size={30} />
+          </a>
+          <a 
+            href="mailto:adamilham3004@gmail.com" 
+            className="text-gray-400 hover:text-red-500 transition duration-300"
+          >
+            <SiGmail size={30} />
+          </a>
+          <a 
+            href="https://www.linkedin.com/in/adamdaryilham" 
+            className="text-gray-400 hover:text-blue-600 transition duration-300"
+          >
+            <SiLinkedin size={30} />
+          </a>
+          <a 
+            href="https://github.com/adamilham-dev" 
+            className="text-gray-400 hover:text-black transition duration-300"
+          >
+            <SiGithub size={30} />
+          </a>
+        </div>
+      </div>
+    </motion.div>
+  );
+};
 
 const AboutSection = () => {
   const containerRef = useRef(null);
@@ -52,15 +158,9 @@ const AboutSection = () => {
               autoplay
               className="w-full h-full"
             />
-
             <br/>
-            
           </motion.p>
-
-          
         </div>
-
-        
 
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8 mb-24">
           <InteractiveSkillCard title="Frontend Development" color="#8B5CF6" icon={SiReact} />
@@ -90,85 +190,7 @@ const AboutSection = () => {
 
         <PortfolioSection />
 
-        {/* Modern Get In Touch Section */}
-        <motion.div
-          class ="mt-32 grid grid-cols-1 md:grid-cols-2 gap-8 text-center"
-          initial={{ opacity: 0, y: 50 }}
-          whileInView={{ opacity: 1, y: 0 }}
-          transition={{ duration: 0.6 }}
-        >
-          <div className="flex flex-col items-center">
-            <h3 className="text-4xl font-bold text-white mb-8 tracking-tight">Get In Touch</h3>
-            <p className="text-lg text-gray-300 mb-6">We'd love to hear from you! Please fill out the form below.</p>
-            <form className="flex flex-col w-full max-w-md">
-              <input
-                type="text"
-                placeholder="Your Name"
-                className="mb-4 p-3 rounded-md border border-gray-300 focus:outline-none focus:ring-2 focus:ring-purple-500 transition duration-300 ease-in-out"
-                required
-              />
-              <input
-                type="email"
-                placeholder="Your Email"
-                className="mb-4 p-3 rounded-md border border-gray-300 focus:outline-none focus:ring-2 focus:ring-purple-500 transition duration-300 ease-in-out"
-                required
-              />
-              <textarea
-                placeholder="Your Message"
-                className="mb-4 p-3 rounded-md border border-gray-300 focus:outline-none focus:ring-2 focus:ring-purple-500 transition duration-300 ease-in-out"
-                rows="4"
-                required
-              />
-              <button
-                type="submit"
-                className="px-8 py-4 bg-gradient-to-r from-purple-600 to-purple-800 text-white rounded-full font-medium hover:from-purple-700 hover:to-purple-900 transition-colors shadow-lg shadow-purple-500/25 transform hover:scale-105"
-              >
-                Send Message
-              </button>
-            </form>
-          </div>
-
-          <div className="flex flex-col items-center" id='contact'>
-            <h3 className="text-4xl font-bold text-white mb-8 tracking-tight">Contact Info</h3>
-            <p className="text-lg text-gray-300 mb-4">Or reach us at:</p>
-            <div className="text-gray-400 mb-6">
-              <p className="text-sm">Phone: +6285775450507</p>
-              <p className="text-sm">Email: adamilham3004@gmail.com</p>
-              <p className="text-sm">LinkedIn: <a href="https://www.linkedin.com/in/adamdaryilham" className="text-purple-400 hover:underline">www.linkedin.com/in/adamdaryilham</a></p>
-              <p className="text-sm">GitHub: <a href="https://github.com/adamilham-dev" className="text-purple-400 hover:underline">https://github.com/adamilham-dev</a></p>
-              <p className="text-sm">Address: Jl. Pondok Kelapa Timur Blok E4 No. 8, Pondok Kelapa, Duren Sawit, Jakarta Timur</p>
-            </div>
-
-
-            <div className="flex justify-center space-x-4">
-  <a 
-    href="https://wa.me/+6285775450507" 
-    className="text-gray-400 hover:text-green-500 transition duration-300"
-  >
-    <SiWhatsapp size={30} />
-  </a>
-  <a 
-    href="mailto:adamilham3004@gmail.com" 
-    className="text-gray-400 hover:text-red-500 transition duration-300"
-  >
-    <SiGmail size={30} />
-  </a>
-  <a 
-    href="https://www.linkedin.com/in/adamdaryilham" 
-    className="text-gray-400 hover:text-blue-600 transition duration-300"
-  >
-    <SiLinkedin size={30} />
-  </a>
-  <a 
-    href="https://github.com/adamilham-dev" 
-    className="text-gray-400 hover:text-black transition duration-300"
-  >
-    <SiGithub size={30} />
-  </a>
-</div>
-            
-          </div>
-        </motion.div>
+        <ContactSection />
 
         {/* Footer Section */}
         <footer className="mt-32 text-center text-gray-400">
@@ -179,5 +201,4 @@ const AboutSection = () => {
   );
 };
 
-export default AboutSection; 
-
+export default AboutSection;
