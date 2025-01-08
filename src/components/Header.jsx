@@ -1,75 +1,187 @@
 import React, { useState, useEffect } from 'react';
+import { motion, AnimatePresence } from 'framer-motion';
 
 const Header = () => {
-  const [showHeader, setShowHeader] = useState(false);
-  const [isOpen, setIsOpen] = useState(false);
-  const [mounted, setMounted] = useState(false);
+  const [isMenuOpen, setIsMenuOpen] = useState(false);
+  const [isScrolled, setIsScrolled] = useState(false);
 
   useEffect(() => {
     const handleScroll = () => {
-      const homeSection = document.querySelector('#home');
-      const offset = homeSection?.offsetTop + homeSection?.offsetHeight;
-      setShowHeader(window.scrollY > offset);
+      setIsScrolled(window.scrollY > 100);
     };
 
     window.addEventListener('scroll', handleScroll);
     return () => window.removeEventListener('scroll', handleScroll);
   }, []);
 
-  // Set mounted after component mounts to trigger entrance animation
+  // Prevent scroll when menu is open
   useEffect(() => {
-    setMounted(true);
-  }, []);
+    if (isMenuOpen) {
+      document.body.style.overflow = 'hidden';
+    } else {
+      document.body.style.overflow = 'unset';
+    }
+  }, [isMenuOpen]);
+
+  const menuItems = [
+    { name: 'Home', href: '#home', icon: '🏠' },
+    { name: 'About', href: '#about', icon: '👤' },
+    { name: 'Projects', href: '#projects', icon: '💻' },
+    { name: 'Contact', href: '#contact', icon: '📧' }
+  ];
+
+  const menuVariants = {
+    hidden: { 
+      x: "100%",
+      transition: {
+        duration: 0.3
+      }
+    },
+    visible: { 
+      x: 0,
+      transition: {
+        type: "spring",
+        stiffness: 300,
+        damping: 30
+      }
+    }
+  };
+
+  const menuItemVariants = {
+    hidden: { opacity: 0, x: 50 },
+    visible: (index) => ({ 
+      opacity: 1, 
+      x: 0,
+      transition: {
+        delay: index * 0.1,
+        type: "spring",
+        stiffness: 300
+      }
+    })
+  };
 
   return (
-    <>
-      <div className={`fixed top-4 left-1/2 transform -translate-x-1/2 w-3/4 max-w-2xl z-50 transition-all duration-300 ease-in-out
-        ${showHeader ? 'opacity-100 translate-y-0' : 'opacity-0 -translate-y-4 pointer-events-none'}`}>
-        <header className="bg-white shadow-lg rounded-full">
-          <div className="px-6 py-3">
-            <div className="flex items-center justify-between">
-              {/* Logo */}
-              <div className="flex items-center">
-                <img 
-                  src="/public/adam-b.png" 
-                  alt="Logo" 
-                  className="h-8 w-8 rounded-full shadow-sm"
-                />
-              </div>
+    <motion.header 
+      initial={{ opacity: 0, y: -50 }}
+      animate={{ 
+        opacity: isScrolled ? 1 : 0, 
+        y: isScrolled ? 0 : -50 
+      }}
+      transition={{ duration: 0.5 }}
+      className={`fixed top-0 left-0 right-0 z-50 
+        ${isScrolled 
+          ? 'bg-gray-900/80 backdrop-blur-md shadow-lg' 
+          : 'bg-transparent'
+        } transition-all duration-300`}
+    >
+      <div className="container mx-auto px-4 py-4 flex justify-between items-center">
+        {/* Logo */}
+        <motion.div 
+          initial={{ opacity: 0, scale: 0.8 }}
+          animate={{ opacity: 1, scale: 1 }}
+          transition={{ duration: 0.5 }}
+          className="text-2xl font-bold text-white"
+        >
+          <img 
+            src='/public/adam.png' 
+            className="w-15 h-12 object-cover" 
+            alt="Logo"
+          />
+        </motion.div>
 
-              {/* Desktop Navigation */}
-              <nav className="hidden md:flex items-center space-x-8">
-                <a href="#home" className="text-gray-700 hover:text-black transition-colors duration-200">Home</a>
-                <a href="#about" className="text-gray-700 hover:text-black transition-colors duration-200">About</a>
-                <a href="#projects" className="text-gray-700 hover:text-black transition-colors duration-200">Projects</a>
-                <a href="#contact" className="text-gray-700 hover:text-black transition-colors duration-200">Contact</a>
-              </nav>
+        {/* Desktop Navigation */}
+        <nav className="hidden md:flex space-x-6">
+          {menuItems.map((item) => (
+            <motion.a
+              key={item.name}
+              href={item.href}
+              whileHover={{ scale: 1.05 }}
+              whileTap={{ scale: 0.95 }}
+              className="text-gray-300 hover:text-purple-400 transition-colors duration-300"
+            >
+              {item.name}
+            </motion.a>
+          ))}
+        </nav>
 
-              {/* Mobile Menu Button */}
-              <button
-                className="md:hidden text-gray-700 hover:text-black transition-colors duration-200"
-                onClick={() => setIsOpen(!isOpen)}
-              >
-                {isOpen ? '✕' : '☰'}
-              </button>
-            </div>
-
-            {/* Mobile Navigation */}
-            <div className={`md:hidden overflow-hidden transition-all duration-300 ease-in-out
-              ${isOpen ? 'max-h-64 opacity-100' : 'max-h-0 opacity-0'}`}>
-              <nav className="py-3 mt-2 bg-white rounded-2xl shadow-inner">
-                <div className="space-y-1">
-                  <a href="#home" className="block px-4 py-2 text-center text-gray-700 hover:bg-gray-50 transition-colors duration-200">Home</a>
-                  <a href="#about" className="block px-4 py-2 text-center text-gray-700 hover:bg-gray-50 transition-colors duration-200">About</a>
-                  <a href="#projects" className="block px-4 py-2 text-center text-gray-700 hover:bg-gray-50 transition-colors duration-200">Projects</a>
-                  <a href="#contact" className="block px-4 py-2 text-center text-gray-700 hover:bg-gray-50 transition-colors duration-200">Contact</a>
-                </div>
-              </nav>
-            </div>
+        {/* Mobile Hamburger Button */}
+        <motion.button 
+          whileTap={{ scale: 0.9 }}
+          onClick={() => setIsMenuOpen(!isMenuOpen)}
+          className="md:hidden text-white focus:outline-none relative z-50"
+        >
+          <div className="relative w-6 h-5">
+            <motion.span
+              animate={{
+                rotate: isMenuOpen ? 45 : 0,
+                y: isMenuOpen ? 8 : 0,
+                backgroundColor: isMenuOpen ? '#fff' : 'currentColor'
+              }}
+              className="absolute top-0 left-0 w-full h-0.5 bg-white transform origin-left"
+            />
+            <motion.span
+              animate={{
+                opacity: isMenuOpen ? 0 : 1,
+                backgroundColor: isMenuOpen ? '#fff' : 'currentColor'
+              }}
+              className="absolute top-1/2 left-0 w-full h-0.5 bg-white transform -translate-y-1/2"
+            />
+            <motion.span
+              animate={{
+                rotate: isMenuOpen ? -45 : 0,
+                y: isMenuOpen ? -8 : 0,
+                backgroundColor: isMenuOpen ? '#fff' : 'currentColor'
+              }}
+              className="absolute bottom-0 left-0 w-full h-0.5 bg-white transform origin-left"
+            />
           </div>
-        </header>
+        </motion.button>
       </div>
-    </>
+
+      {/* Mobile Off-Canvas Menu */}
+      <AnimatePresence>
+        {isMenuOpen && (
+          <motion.div
+            initial={{ opacity: 0 }}
+            animate={{ opacity: 1 }}
+            exit={{ opacity: 0 }}
+            transition={{ duration: 0.3 }}
+            className="fixed inset-0 z-40 bg-black/50 backdrop-blur-sm"
+            onClick={() => setIsMenuOpen(false)}
+          >
+            <motion.div
+              variants={menuVariants}
+              initial="hidden"
+              animate="visible"
+              exit="hidden"
+              className="absolute right-0 top-0 bottom-0 w-[80%] bg-gray-950 shadow-2xl"
+              onClick={(e) => e.stopPropagation()}
+            >
+              <div className="p-6 pt-20 space-y-6">
+                {menuItems.map((item, index) => (
+                  <motion.a
+                    key={item.name}
+                    href={item.href}
+                    custom={index}
+                    variants={menuItemVariants}
+                    initial="hidden"
+                    animate="visible"
+                    exit="hidden"
+                    onClick={() => setIsMenuOpen(false)}
+                    className="block"
+                  >
+                    <div className="flex items-center space-x-4 bg-gray-800/50 hover:bg-purple-900/30 rounded-xl p-4 transition-colors duration-300">
+                      <span className="text-2xl">{item.icon}</span>
+                      <span className="text-lg text-white font-medium">{item.name}</span>
+                    </div>
+                  </motion.a>
+                ))}
+              </div>
+            </motion.div>
+          </motion.div>
+        )}
+      </AnimatePresence>
+    </motion.header>
   );
 };
 

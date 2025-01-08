@@ -4,6 +4,8 @@ import { gsap } from 'gsap';
 import { TextPlugin } from 'gsap/TextPlugin';
 import HomeSection from '../components/HomeSection';
 import AboutSection from './AboutSection';
+import Header from './Header';
+
 
 gsap.registerPlugin(TextPlugin);
 
@@ -145,9 +147,9 @@ const Preloader = ({ onComplete }) => {
       <div className="text-center px-4 max-w-2xl">
         <h1 
           ref={nameRef}
-          className="text-white text-6xl font-bold mb-12 tracking-wider [&>span]:mr-[0.1em]"
+          className="text-white text-4xl font-bold mb-12 tracking-wider [&>span]:mr-[0.1em]"
         >
-          Adam  Darry  Ilham
+          Adam Darry Ilham
         </h1>
         
         <div className="h-24 flex items-center justify-center overflow-hidden">
@@ -204,7 +206,9 @@ const Portfolio = () => {
             className="w-full"
           >
             <HomeSection scrollY={scrollY} />
+            <Header/>
             <AboutSection />
+         
           </motion.div>
         )}
       </AnimatePresence>

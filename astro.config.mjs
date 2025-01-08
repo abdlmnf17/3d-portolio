@@ -8,8 +8,8 @@ export default defineConfig({
     optimizeDeps: {
       include: ['framer-motion', 'lucide-react']
     }
-  },  // KOMA DITAMBAHKAN DI SINI
+  }, 
 
   site: 'https://abdlmnf17.github.io',
-  base: '/portofolio-3d/',  
+  base: '/3d-portolio/',  
 });

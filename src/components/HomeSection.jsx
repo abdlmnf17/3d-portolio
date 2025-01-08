@@ -1,7 +1,7 @@
 import { useEffect, useRef, useState } from "react";
 import { Typewriter } from "react-simple-typewriter";
 import { motion, useScroll, useTransform, AnimatePresence } from "framer-motion";
-import { FaGithub, FaLinkedin, FaEnvelope, FaPhone } from 'react-icons/fa';
+import { FaGithub, FaLinkedin, FaEnvelope, FaPhone, FaAddressBook } from 'react-icons/fa';
 import { SiReact, SiNodedotjs, SiTailwindcss, SiDocker } from 'react-icons/si';
 
 const SplineViewer = () => {
@@ -67,7 +67,7 @@ const TechCard = ({ icon, title, description, color }) => {
     >
       <div className="absolute inset-0 bg-gradient-to-br from-black/80 to-purple-900/20 
         backdrop-blur-sm border border-purple-500/20 rounded-2xl p-8
-        flex flex-col gap-6 overflow-hidden">
+        flex flex-col gap-6 overflow-hidden" id="home">
         
         <div className="absolute inset-0 bg-gradient-to-br from-purple-500/10 to-blue-500/10 opacity-50" />
         
@@ -201,22 +201,27 @@ const HeroSection = () => {
   const socialLinks = [
     { 
       icon: <FaGithub className="text-2xl" />, 
-      link: "https://github.com/yourusername",
+      link: "https://github.com/adamilham-dev",
       color: "text-gray-200 hover:text-white"
     },
     { 
       icon: <FaLinkedin className="text-2xl" />, 
-      link: "https://linkedin.com/in/yourusername",
+      link: "https://www.linkedin.com/in/adamdaryilham",
       color: "text-blue-400 hover:text-blue-300"
     },
     { 
       icon: <FaEnvelope className="text-2xl" />, 
-      link: "mailto:your.email@example.com",
+      link: "adamilham3004@gmail.com",
       color: "text-red-400 hover:text-red-300"
     },
     { 
       icon: <FaPhone className="text-2xl" />, 
-      link: "tel:+1234567890",
+      link: "tel+6285775450507",
+      color: "text-green-400 hover:text-green-300"
+    },
+    { 
+      icon: <FaAddressBook className="text-2xl" />, 
+      link: "https://drive.google.com/file/d/1Pk_KyToz8CZf1R6MjkHEjn0PXMSe7Ixa/view",
       color: "text-green-400 hover:text-green-300"
     }
   ];
@@ -226,7 +231,7 @@ const HeroSection = () => {
       initial={{ backgroundColor: 'rgba(0,0,0,0)' }}
       animate={{ backgroundColor: 'rgba(0 ,0,0,1)' }}
       transition={{ duration: 1 }}
-      className="min-h-screen flex flex-col lg:flex-row items-stretch justify-center bg-gradient-to-b from-black via-black to-purple-900 text-white p-4 lg:p-12"
+      className="min-h-screen flex flex-col lg:flex-row items-stretch justify-center bg-gradient-to-b from-black via-black to-purple-900 text-white p-12 lg:p-12"
     >
       {/* Left Column */}
       <motion.div 
@@ -252,7 +257,7 @@ const HeroSection = () => {
         </div>
         
         <p className="text-sm text-gray-400 leading-relaxed">
-          Passionate about creating innovative digital solutions that blend cutting-edge technology with elegant design. Transforming complex ideas into intuitive user experiences.
+        Enthusiastic and motivated fresh graduate in software development, skilled in multiple programming languages and web technologies.
         </p>
         
         <div className="flex space-x-4 pt-4">
