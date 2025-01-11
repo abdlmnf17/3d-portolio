@@ -1,14 +1,21 @@
-import { useEffect, useRef, useState } from "react";
+import { useEffect, useState } from "react";
+import { motion, AnimatePresence } from "framer-motion";
 import { Typewriter } from "react-simple-typewriter";
-import { motion, useScroll, useTransform, AnimatePresence } from "framer-motion";
-import { FaGithub, FaLinkedin, FaEnvelope, FaPhone, FaAddressBook } from 'react-icons/fa';
-import { SiReact, SiNodedotjs, SiTailwindcss, SiDocker } from 'react-icons/si';
+import { FaStar, FaUsers, FaProjectDiagram, FaClock } from 'react-icons/fa'; // Import ikon dari react-icons
 
+// Cosmic Glow Component
+const CosmicGlow = () => {
+  return (
+    <div className="absolute inset-0 overflow-hidden">
+      <div className="absolute inset-0 bg-gradient-to-br from-black to-purple-600 opacity-80" />
+      <div className="absolute inset-0 bg-gradient-to-br from-black to-purple-700 opacity-60 blur-lg" />
+    </div>
+  );
+};
+
+// Spline Viewer Component
 const SplineViewer = () => {
-  const containerRef = useRef(null);
-  const { scrollY } = useScroll();
-  
-  const scale = useTransform(scrollY, [0, 300], [1, 0.8]);
+  const [isLoaded, setIsLoaded] = useState(false);
 
   useEffect(() => {
     const script = document.createElement('script');
@@ -22,6 +29,7 @@ const SplineViewer = () => {
         const logo = shadowRoot.querySelector('#logo');
         if (logo) logo.remove();
       }
+      setIsLoaded(true);
     };
     
     script.onload = handleLoad;
@@ -33,18 +41,16 @@ const SplineViewer = () => {
 
   return (
     <motion.div 
-      ref={containerRef} 
       initial={{ opacity: 0, scale: 0.9 }}
-      animate={{ opacity: 1, scale: 1 }}
-      style={{ scale }}
-      transition={{ duration: 0.8, ease: "easeInOut" }}
+      animate={{ opacity: isLoaded ? 1 : 0, scale: isLoaded ? 1 : 0.9 }}
+      transition={{ duration: 1.2, ease: "easeInOut" }}
       className="relative w-full h-full max-w-full max-h-full overflow-hidden"
     >
       <spline-viewer
         url="https://prod.spline.design/NrfVJbZh0ZBaCcdN/scene.splinecode"
         className="w-full h-full object-contain"
         style={{
-          transform: 'scale(1)', 
+          transform: 'scale(0.8)', 
           transformOrigin: 'center',
           maxWidth: '100%',
           maxHeight: '100%',
@@ -56,247 +62,165 @@ const SplineViewer = () => {
   );
 };
 
-const TechCard = ({ icon, title, description, color }) => {
-  return (
-    <motion.div 
-      initial={{ opacity: 0, y: 50 }}
-      animate={{ opacity: 1, y: 0 }}
-      exit={{ opacity: 0, y: -50 }}
-      transition={{ duration: 0.5 }}
-      className="w-72 h-80 relative"
-    >
-      <div className="absolute inset-0 bg-gradient-to-br from-black/80 to-purple-900/20 
-        backdrop-blur-sm border border-purple-500/20 rounded-2xl p-8
-        flex flex-col gap-6 overflow-hidden" id="home">
-        
-        <div className="absolute inset-0 bg-gradient-to-br from-purple-500/10 to-blue-500/10 opacity-50" />
-        
-        <motion.div 
-          initial={{ scale: 0.8 }}
-          animate={{ scale: 1 }}
-          transition={{ duration: 0.5 }}
-          className={`text-6xl ${color} relative z-10 drop-shadow-[0_0_10px_rgba(255,255,255,0.5)]`}
-        >
-          {icon}
-        </motion.div>
-        
-        <motion.h3 
-          initial={{ y: 20, opacity: 0 }}
-          animate={{ y: 0, opacity: 1 }}
-          transition={{ delay: 0.2 }}
-          className="text-2xl font-bold text-white relative z-10 drop-shadow-[0_2px_4px_rgba(0,0,0,0.3)]"
-        >
-          {title}
-        </motion.h3>
-        
-        <motion.p
-          initial={{ y: 20, opacity: 0 }}
-          animate={{ y: 0, opacity: 1 }}
-          transition={{ delay: 0.3 }}
-          className="text-sm text-gray-300/80 relative z-10 leading-relaxed"
-        >
-          {description}
-        </motion.p>
-        
-        <motion.div 
-          initial={{ width: "0%" }}
-          animate={{ width: "100%" }}
-          transition={{ duration: 1, delay: 0.5 }}
-          className="absolute bottom-0 left- 0 h-1 bg-gradient-to-r from-purple-600 via-blue-600 to-purple-600"
-        />
-        
-        <motion.div 
-          initial={{ scale: 0 }}
-          animate={{ scale: 1 }}
-          transition={{ duration: 0.5 }}
-          className="absolute top-0 right-0 w-20 h-20 bg-gradient-to-br from-purple-500/20 to-transparent rounded-bl-full"
-        />
-      </div>
-    </motion.div>
-  );
-};
+// Modern CTA Button Component
+const ModernCTAButton = ({ children, primary = false, href }) => (
+  <motion.a
+    href={href}
+    smooth // Untuk smooth scrolling
+    duration={500} // Durasi scrolling
+    whileHover={{ scale: 1.05, boxShadow: "0 0 20px rgba(255, 255, 255, 0.5)" }}
+    whileTap={{ scale: 0.95 }}
+    className={`
+      relative overflow-hidden rounded-full px-8 py-4
+      ${primary ? 'bg-gradient-to-r from-blue-500 to-purple-600' : 'bg-white/10'}
+      font-medium text-base
+      transition-all duration-300
+      group
+    `}
+  >
+    <span className={`
+      relative z-10 font-semibold
+      ${primary ? 'text-white' : 'text-gray-300'}
+      group-hover:text-white
+      transition-colors duration-300
+    `}>
+      {children}
+    </span>
+  </motion.a>
+);
 
-const TechShowcase = () => {
-  const techStack = [
-    {
-      icon: <SiReact />,
-      title: "Frontend Mastery",
-      description: "Building elegant & responsive interfaces with React & Next.js. Focusing on performance and user experience.",
-      color: "text-cyan-400"
-    },
-    {
-      icon: <SiNodedotjs />,
-      title: "Backend Engineering",
-      description: "Creating robust server architectures with Node.js & Express. Specializing in RESTful APIs and microservices.",
-      color: "text-green-500"
-    },
-    {
-      icon: <SiTailwindcss />,
-      title: "Design Systems",
-      description: "Crafting beautiful UI components with Tailwind CSS. Implementing consistent and scalable design patterns.",
-      color: "text-blue-400"
-    },
-    {
-      icon: <SiDocker />,
-      title: "DevOps & Cloud",
-      description: "Orchestrating deployments with Docker & cloud services. Ensuring smooth CI/CD pipelines and scalability.",
-      color: "text-sky-600"
-    }
-  ];
-
-  const [currentIndex, setCurrentIndex] = useState(0);
-
-  const nextCard = () => {
-    setCurrentIndex((prevIndex) => (prevIndex + 1) % techStack.length);
-  };
-
-  const prevCard = () => {
-    setCurrentIndex((prevIndex) => (prevIndex - 1 + techStack.length) % techStack.length);
-  };
+// Counter Component
+const Counter = ({ number, label }) => {
+  const [count, setCount] = useState(0);
 
   useEffect(() => {
-    const timer = setInterval(nextCard, 4000);
+    let start = 0;
+    const end = number;
+    const duration = 2; // Durasi animasi dalam detik
+    const increment = Math.ceil(end / (duration * 1000 / 100)); // Hitung increment per 100ms
+
+    const timer = setInterval(() => {
+      if (start < end) {
+        start += increment;
+        setCount(start);
+      } else {
+        clearInterval(timer);
+        setCount(end);
+      }
+    }, 100);
+
     return () => clearInterval(timer);
-  }, []);
+  }, [number]);
 
   return (
-    <div className="flex flex-col items-center space-y-8">
-      <motion.h2 
-        initial={{ opacity: 0, y: -20 }}
-        animate={{ opacity: 1, y: 0 }}
-        className="text-4xl font-bold text-transparent bg-clip-text bg-gradient-to-r from-purple-500 to-pink-600 drop-shadow-[0_2px_4px_rgba(0,0,0,0.3)]"
-      >
-        <Typewriter
-          words={['Tech Ecosystem']}
-          loop={1}
-          cursor
-          cursorStyle='|'
-          typeSpeed={70}
-          deleteSpeed={50}
-          delaySpeed={1500}
-        />
-      </motion.h2>
-
-      <div className="relative h-80 w-72">
-        <AnimatePresence mode="wait">
-          <TechCard 
-            key={currentIndex}
-            icon={techStack[currentIndex].icon}
-            title={techStack[currentIndex].title}
-            description={techStack[currentIndex].description}
-            color={techStack[currentIndex].color}
-          />
-        </AnimatePresence>
-      </div>
-
-      {/* <div className="flex space-x-4">
-        <button onClick={prevCard} className="p-2 bg-purple-600 text-white rounded-full">Prev</button>
-        <button onClick={nextCard} className="p-2 bg-purple-600 text-white rounded-full">Next</button>
-      </div> */}
+    <div className="flex flex-col items-center justify-center text-center">
+      <span className="text-4xl font-bold text-white">{count}+</span>
+      <span className="text-gray-400 text-sm">{label}</span>
     </div>
+
   );
 };
 
+// Main Hero Section Component
 const HeroSection = () => {
-  const socialLinks = [
-    { 
-      icon: <FaGithub className="text-2xl" />, 
-      link: "https://github.com/adamilham-dev",
-      color: "text-gray-200 hover:text-white"
-    },
-    { 
-      icon: <FaLinkedin className="text-2xl" />, 
-      link: "https://www.linkedin.com/in/adamdaryilham",
-      color: "text-blue-400 hover:text-blue-300"
-    },
-    { 
-      icon: <FaEnvelope className="text-2xl" />, 
-      link: "adamilham3004@gmail.com",
-      color: "text-red-400 hover:text-red-300"
-    },
-    { 
-      icon: <FaPhone className="text-2xl" />, 
-      link: "tel+6285775450507",
-      color: "text-green-400 hover:text-green-300"
-    },
-    { 
-      icon: <FaAddressBook className="text-2xl" />, 
-      link: "https://drive.google.com/file/d/1Pk_KyToz8CZf1R6MjkHEjn0PXMSe7Ixa/view",
-      color: "text-green-400 hover:text-green-300"
-    }
-  ];
-
   return (
-    <motion.div 
-      initial={{ backgroundColor: 'rgba(0,0,0,0)' }}
-      animate={{ backgroundColor: 'rgba(0 ,0,0,1)' }}
-      transition={{ duration: 1 }}
-      className="min-h-screen flex flex-col lg:flex-row items-stretch justify-center bg-gradient-to-b from-black via-black to-purple-900 text-white p-12 lg:p-12"
-    >
-      {/* Left Column */}
-      <motion.div 
-        initial={{ opacity: 0, y: -50 }}
-        animate={{ opacity: 1, y: 0 }}
-        transition={{ duration: 0.8, delay: 0.2 }}
-        className="w-full lg:w-1/3 p-6 flex flex-col justify-center space-y-6 shadow-2xl rounded-2xl bg-black/20 backdrop-blur-sm"
-      >
-        <h1 className="text-5xl lg:text-6xl font-bold bg-gradient-to-r from-purple-400 to-blue-600 text-transparent bg-clip-text drop-shadow-[0_2px_4px_rgba(0,0,0,0.3)]">
-          Adam Dary
-        </h1>
-        
-        <div className="text-lg lg:text-xl font-light text-gray-300 drop-shadow-[0_2px_4px rgba(0,0,0,0.3)]">
-          <Typewriter
-            words={['Creative Developer', 'Full Stack Engineer', 'UI/UX Designer']}
-            loop={true}
-            cursor
-            cursorStyle='|'
-            typeSpeed={70}
-            deleteSpeed={50}
-            delaySpeed={1500}
-          />
-        </div>
-        
-        <p className="text-sm text-gray-400 leading-relaxed">
-        Enthusiastic and motivated fresh graduate in software development, skilled in multiple programming languages and web technologies.
-        </p>
-        
-        <div className="flex space-x-4 pt-4">
-          {socialLinks.map((social, index) => (
-            <motion.a
-              key={index}
-              href={social.link}
-              target="_blank"
-              rel="noopener noreferrer"
-              whileHover={{ scale: 1.2, rotate: 5 }}
-              whileTap={{ scale: 0.9 }}
-              className={`${social.color} transition-all duration-300 drop-shadow-[0_2px_4px rgba(0,0,0,0.3)]`}
-            >
-              {social.icon}
-            </motion.a>
-          ))}
-        </div>
-      </motion.div>
+    <div className="relative min-h-screen flex items-center justify-center overflow-hidden bg-[#0A0A0B] font-['Plus Jakarta Sans'] antialiased">
+      <CosmicGlow />
 
-      {/* Middle Column */}
-      <motion.div 
-        initial={{ opacity: 0, scale: 0.9 }}
-        animate={{ opacity: 1, scale: 1 }}
-        transition={{ duration: 0.8, delay: 0.4 }}
-        className="w-full lg:w-1/3 flex items-center justify-center"
-      >
-        <SplineViewer />
-      </motion.div>
+      <div className="relative z-10 w-full max-w-[1600px] mx-auto px-6 py-12 flex flex-col lg:flex-row items-center justify-between ">
+        {/* Left Column */}
+        <motion.div
+          initial={{ opacity: 0 }}
+          animate={{ opacity: 1 }}
+          transition={{ duration: 0.8 }}
+          className="space-y-8 lg:w-1/2"
+        >
+          <motion.h1
+            initial={{ opacity: 0, y: -20 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ delay: 0.4 }}
+            className="text-5xl lg:text-6xl font-bold tracking-tight leading-tight text-white"
+          >
+            Everything App for your <span className="text-transparent bg-clip-text bg-gradient-to-r from-blue-400 via-purple-400 to-blue-400">teams</span>
+          </motion.h1>
 
-      {/* Right Column */}
-      <motion.div 
-        initial={{ opacity: 0, y: 50 }}
-        animate={{ opacity: 1, y: 0 }}
-        transition={{ duration: 0.8, delay: 0.6 }}
-        className="w-full lg:w-1/3 p-6 flex flex-col justify-center shadow-2xl rounded-2xl bg-black/20 backdrop-blur-sm"
-      >
-        <TechShowcase />
-      </motion.div>
-    </motion.div>
+          <motion.div
+            initial={{ opacity: 0, y: 20 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ delay: 0.6 }}
+            className="text-xl lg:text-2xl text-gray-300 font-light"
+          >
+            <Typewriter
+              words={['Developer', 'Designer', 'Creator']}
+              loop={true}
+              cursor
+              cursorStyle='|'
+              typeSpeed={70}
+              deleteSpeed={50}
+              delaySpeed={2000}
+            />
+          </motion.div>
+
+          <motion.div
+            className="flex flex-wrap gap-4 pt-4"
+            initial={{ opacity: 0, y: 20 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ delay: 0.8 }}
+          >
+            <ModernCTAButton href="#projects" primary>VIEW PROJECTS</ModernCTAButton>
+            <ModernCTAButton href="#contact">CONTACT ME</ModernCTAButton>
+          </motion.div>
+        </motion.div>
+
+        {/* Right Column - 3D Viewer */}
+        <motion.div
+          initial={{ opacity: 0, scale: 0.9 }}
+          animate={{ opacity: 1, scale: 1 }}
+          transition={{ duration: 0.8, delay: 0.4 }}
+          className="lg:w-1/2 h-[600px] flex items-center justify-center"
+        >
+          <SplineViewer />
+        </motion.div>
+      </div>
+
+      {/* Stats Section */}
+      <div className="relative z-10 w-full max-w-[1600px] mx-auto px-6 py-12 grid grid-cols-2 gap-6">
+        <AnimatePresence>
+          <motion.div
+            initial={{ opacity: 0, y: 20 }}
+            animate={{ opacity: 1, y: 0 }}
+            exit={{ opacity: 0, y: -20 }}
+            transition={{ duration: 0.5 }}
+          >
+            <Counter number={5} label="Years Experience" />
+          </motion.div>
+          <motion.div
+            initial={{ opacity: 0, y: 20 }}
+            animate={{ opacity: 1, y: 0 }}
+            exit={{ opacity: 0, y: -20 }}
+            transition={{ duration: 0.5 }}
+          >
+            <Counter number={50} label="Projects Done" />
+          </motion.div>
+          <motion.div
+            initial={{ opacity: 0, y: 20 }}
+            animate={{ opacity: 1, y: 0 }}
+            exit={{ opacity: 0, y: -20 }}
+            transition={{ duration: 0.5 }}
+          >
+            <Counter number={30} label="Happy Clients" />
+          </motion.div>
+          <motion.div
+            initial={{ opacity: 0, y: 20 }}
+            animate={{ opacity: 1, y: 0 }}
+            exit={{ opacity: 0, y: -20 }}
+            transition={{ duration: 0.5 }}
+          >
+            <Counter number={99} label="Success Rate" />
+          </motion.div>
+        </AnimatePresence>
+      </div>
+    </div>
   );
 };
 
