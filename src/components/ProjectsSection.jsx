@@ -1,241 +1,263 @@
 import React, { useState, useEffect } from 'react';
+import { motion } from 'framer-motion';
+import { 
+  FaMobileAlt, 
+  FaBrain, 
+  FaNetworkWired,
+  FaGithub,
+  FaLink,
+  FaLaptopCode
+} from 'react-icons/fa';
+import { 
+  SiKotlin, 
+  SiSwift, 
+  SiFirebase, 
+  SiTensorflow, 
+  SiJavascript,
+  SiPython,
+  SiHtml5
+} from 'react-icons/si';
 
-// Custom icon components for project types
-const WebIcon = () => (
-  <svg className="w-6 h-6" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
-    <path d="M3 12h18M12 3v18M12 12a9 9 0 1 0 0-18 9 9 0 0 0 0 18z" />
-  </svg>
-);
+const ProjectShowcase = () => {
+  const [activeCategory, setActiveCategory] = useState("all");
+  const [visibleProjects, setVisibleProjects] = useState([]);
 
-const MobileIcon = () => (
-  <svg className="w-6 h-6" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
-    <rect x="5" y="2" width="14" height="20" rx="2" ry="2" />
-    <line x1="12" y1="18" x2="12" y2="18.01" />
-  </svg>
-);
 
-const MLIcon = () => (
-  <svg className="w-6 h-6" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
-    <path d="M21 12h-4l-3 9L9 3l-3 9H2" />
-  </svg>
-);
-
-const IoTIcon = () => (
-  <svg className="w-6 h-6" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
-    <circle cx="12" cy="12" r="3" />
-    <path d="M19.4 15a1.65 1.65 0 0 0 .33 1.82l.06.06a2 2 0 0 1 0 2.83 2 2 0 0 1-2.83 0l-.06-.06a1.65 1.65 0 0 0-1.82-.33 1.65 1.65 0 0 0-1 1.51V21a2 2 0 0 1-2 2 2 2 0 0 1-2-2v-.09A1.65 1.65 0 0 0 9 19.4a1.65 1.65 0 0 0-1.82.33l-.06.06a2 2 0 0 1-2.83 0 2 2 0 0 1 0-2.83l.06-.06a1.65 1.65 0 0 0 .33-1.82 1.65 1.65 0 0 0-1.51-1H3a2 2 0 0 1-2-2 2 2 0 0 1 2-2h.09A1.65 1.65 0 0 0 4.6 9a1.65 1.65 0 0 0-.33-1.82l-.06-.06a2 2 0 0 1 0-2.83 2 2 0 0 1 2.83 0l.06.06a1.65 1.65 0 0 0 1.82.33H9a1.65 1.65 0 0 0 1-1.51V3a2 2 0 0 1 2-2 2 2 0 0 1 2 2v.09a1.65 1.65 0 0 0 1 1.51 1.65 1.65 0 0 0 1.82-.33l.06-.06a2 2 0 0 1 2.83 0 2 2 0 0 1 0 2.83l-.06.06a1.65 1.65 0 0 0-.33 1.82V9a1.65 1.65 0 0 0 1.51 1H21a2 ```javascript
-      2 0 0 1 2 2 2 2 0 0 1-2 2h-.09a1.65 1.65 0 0 0-1.51 1z" />
-  </svg>
-);
-
-const projects = [
+  const projects = [
     {
       title: "Catshop App JollyCat",
       role: "Frontend & Backend Developer",
       date: "Nov 2023 - Jun 2024",
-      tech: ["Kotlin", "SQLite", "Google Cloud Maps API"],
+      tech: [SiKotlin, SiFirebase],
       points: [
-        "Browse and purchase cat-related products.",
-        "Google Maps integration to find nearby pet stores.",
-        "Local data storage with SQLite for offline access."
+        "Browse and purchase cat-related products",
+        "Google Maps integration",
+        "Local data storage"
       ],
-      color: "from-pink-500/20 to-purple-500/20",
-      image: "https://picsum.photos/200/300?random=1", // Random image URL
-      github: "https://github.com/adamilham-dev/catshop-app" // GitHub link
+      color: {
+        gradient: "from-pink-500 to-purple-500",
+        bg: "bg-pink-500/10",
+        border: "border-gray-700 hover:border-pink-500"
+      },
+      category: "mobile",
+      github: "https://github.com/adamilham-dev/catshop-app",
+      image: "https://picsum.photos/200/300?random=1"
     },
     {
       title: "Cancer Detection App",
-      role: "Frontend & Backend Developer",
+      role: "AI & Mobile Developer",
       date: "Mar 2024 - Jun 2024",
-      tech: ["Kotlin", "TensorFlow", "RoomDB", "Jetpack Compose"],
+      tech: [SiSwift, SiTensorflow],
       points: [
-        "Cancer detection using TensorFlow-based image analysis.",
-        "Local storage of diagnosis results with RoomDB.",
-        "Modern UI with Jetpack Compose for seamless navigation."
+        "Cancer detection using ML algorithms",
+        "Real-time image analysis",
+        "Intuitive medical interface"
       ],
-      color: "from-blue-500/20 to-cyan-500/20",
-      image: "https://picsum.photos/200/300?random=2", // Random image URL
-      github: "https://github.com/adamilham-dev/cancer-detection-app" // GitHub link
+      color: {
+        gradient: "from-blue-500 to-cyan-500",
+        bg: "bg-blue-500/10",
+        border: "border-gray-700 hover:border-blue-500"
+      },
+      category: "ml",
+      github: "https://github.com/adamilham-dev/cancer-detection",
+      image: "https://picsum.photos/200/300?random=2"
     },
     {
-      title: "Web-Based Music Platform Willify",
+      title: "Willify Music Platform",
       role: "Fullstack Web Developer",
       date: "Apr 2024 - Jul 2024",
-      tech: ["HTML", "CSS", "JavaScript", "Vanilla JS"],
+      tech: [SiJavascript, SiHtml5],
       points: [
-        "Create and manage custom music playlists.",
-        "Search functionality for exploring tracks.",
-        "Clean and responsive UI for seamless browsing across devices."
+        "Interactive music streaming",
+        "Personalized playlist creation",
+        "Responsive web design"
       ],
-      color: "from-green-500/20 to-emerald-500/20",
-      image: "https://picsum.photos/200/300?random=3", // Random image URL
-      github: "https://github.com/adamilham-dev/willify-music-platform" // GitHub link
+      color: {
+        gradient: "from-green-500 to-emerald-500",
+        bg: "bg-green-500/10",
+        border: "border-gray-700 hover:border-green-500"
+      },
+      category: "web",
+      github: "https://github.com/adamilham-dev/willify-music",
+      image: "https://picsum.photos/200/300?random=3"
     },
     {
-      title: "Nutrition App DiaryMacro",
-      role: "Project Leader",
+      title: "DiaryMacro Nutrition App",
+      role: "Mobile AI Developer",
       date: "Sep 2024 - Present",
-      tech: ["Swift", "SwiftUI", "Machine Learning", "Firebase", "RestAPI"],
+      tech: [SiSwift, SiTensorflow],
       points: [
-        "Macronutrient tracking through meal logging.",
-        "AI-based food image recognition with Machine Learning.",
-        "Real-time data synchronization using Firebase."
+        "AI-powered nutrition tracking",
+        "Meal recognition",
+        "Health insights generation"
       ],
-      color: "from-orange-500/20 to-red-500/20",
-      image: "https://picsum.photos/200/300?random=4", // Random image URL
-      github: "https://github.com/adamilham-dev/diarymacro" // GitHub link
+      color: {
+        gradient: "from-orange-500 to-red-500",
+        bg: "bg-orange-500/10",
+        border: "border-gray-700 hover:border-orange-500"
+      },
+      category: "ml",
+      github: "https://github.com/adamilham-dev/diarymacro",
+      image: "https://picsum.photos/200/300?random=4"
     },
     {
-      title: "IoT Smart Digital Lock App Accessio",
-      role: "Project Leader",
+      title: "Accessio IoT Smart Lock",
+      role: "IoT Systems Developer",
       date: "Sep 2024 - Present",
-      tech: ["Internet of Things", "Flutter", "Python", "Firebase", "RestAPI"],
+      tech: [SiPython, FaNetworkWired],
       points: [
-        "Control and monitor smart locks remotely using WiFi or Bluetooth.",
-        "Real-time access logs and notifications with Firebase.",
-        "Secure communication with IoT devices using REST APIs."
+        "Remote lock management",
+        "Real-time access monitoring",
+        "Secure IoT communication"
       ],
-      color: "from-violet-500/20 to-indigo-500/20",
-      image: "https://picsum.photos/200/300?random=5", // Random image URL
-      github: "https://github.com/adamilham-dev/accessio" // GitHub link
-    },
-    {
-      title: "Book Store App GRameJia",
-      role: "Frontend & Backend Developer",
-      date: "Sep 2024 - Present",
-      tech: ["Swift", "CoreData"],
-      points: [
-        "Browse and purchase books from various genres.",
-        "Offline access to personal library using CoreData.",
-        "Manage and review favorite books."
-      ],
-      color: "from-yellow-500/20 to-amber-500/20",
-      image: "https://picsum.photos/200/300?random=6", // Random image URL
-      github: "https://github.com/adamilham-dev/gramejia" // GitHub link
+      color: {
+        gradient: "from-indigo-500 to-blue-500",
+        bg: "bg-indigo-500/10",
+        border: "border-gray-700 hover:border-indigo-500"
+      },
+      category: "iot",
+      github: "https://github.com/adamilham-dev/accessio-iot",
+      image: "https://picsum.photos/200/300?random=5"
     }
-].map(project => ({
-  ...project,
-  category: project.tech.some(t => t.includes("Machine Learning")) ? "ml" :
-           project.tech.some(t => t.includes("IoT")) ? "iot" :
-           project.tech.some(t => ["Swift", "Kotlin", "Flutter"].includes(t)) ? "mobile" : "web"
-}));
+  ];
 
-const categories = [
-  { id: "all", label: "All Projects", icon: null },
-  { id: "web", label: "Web Development", icon: WebIcon },
-  { id: "mobile", label: "Mobile Apps", icon: MobileIcon },
-  { id: "ml", label: "Machine Learning", icon: MLIcon },
-  { id: "iot", label: "IoT", icon: IoTIcon }
-];
-
-const ProjectShowcase = () => {
-  const [activeCategory, setActiveCategory] = useState("all");
-  const [visibleProjects, setVisibleProjects] = useState(projects);
+  const categories = [
+    { id: "all", label: "All Projects", icon: FaLaptopCode },
+    { id: "mobile", label: "Mobile Apps", icon: FaMobileAlt },
+    { id: "ml", label: "AI & ML", icon: FaBrain },
+    { id: "iot", label: "IoT & Web", icon: FaNetworkWired }
+  ];
 
   useEffect(() => {
-    setVisibleProjects(
-      activeCategory === "all" 
-        ? projects 
-        : projects.filter(p => p.category === activeCategory)
-    );
+    if (activeCategory === "all") {
+      setVisibleProjects(projects);
+    } else if (activeCategory === "iot") {
+      // Untuk kategori IoT, tampilkan proyek IoT dan Web
+      setVisibleProjects(
+        projects.filter(p => p.category === "iot" || p.category === "web")
+      );
+    } else {
+      // Untuk kategori lainnya, filter sesuai kategori
+      setVisibleProjects(
+        projects.filter(p => p.category === activeCategory)
+      );
+    }
   }, [activeCategory]);
 
-  const ProjectCard = ({ project }) => (
-    <div 
-      className="group bg-gray-900 rounded-xl border border-gray-800 overflow-hidden transform transition-all duration-300 hover:scale-[1.02] hover:shadow-2xl"
-      style={{ animation: 'fadeIn 0.5s ease-out' }}
-    >
-      <div className={`absolute inset-0 bg-gradient-to-br ${project.color} opacity-0 group-hover:opacity-50 transition-opacity duration-300`} />
-      
-      <div className="relative p-6 space-y-4">
-        {/* Responsive Image */}
-        <img 
-          src={project.image} 
-          alt={project.title} 
-          className="w-full h-32 object-cover rounded-md mb-4" // Adjust height as needed
-        />
-        
-        <div className="space-y-2">
-          <h3 className="text-2xl font-bold text-white group-hover:text-purple-300 transition-colors duration-300">
-            {project.title}
-          </h3>
-          <div className="text-purple-400 font-medium">
-            {project.role} • {project.date}
-          </div>
-          <a href={project.github} target="_blank" rel="noopener noreferrer" className="text-purple-300 hover:underline">
-            View on GitHub
-          </a>
-        </div>
-
-        <div className="flex flex-wrap gap-2">
-          {project.tech.map((tech, i) => (
-            <span
-              key={i}
-              className="px-3 py-1 bg-purple-500/20 text-purple-300 rounded-full text-sm"
-            >
-              {tech}
-            </span>
-          ))}
-        </div>
-
-        <ul className="space-y-2 text-gray-300">
-          {project.points.map((point, i) => (
-            <li key={i} className="flex items-start">
-              <span className="mr-2 text-purple-400">•</span>
-              {point}
-            </li>
-          ))}
-        </ul>
-      </div>
-    </div>
-  );
-
   return (
-    <div className="min-h-screen bg-gray-950 py-16 px-4 sm:px-6 lg:px-8">
-      <div className="max-w-7xl mx-auto space-y-8">
-        <div className="text-center space-y-4">
-          <h2 className="text-4xl font-bold text-white">Portfolio</h2>
-          <p className="text-gray-400 max-w-2xl mx-auto">
-            A collection of recent projects showcasing expertise in mobile and web application development.
-          </p>
-        </div>
+    <motion.div 
+      initial={{ opacity: 0 }}
+      whileInView={{ opacity: 1 }}
+      transition={{ duration: 0.6 }}
+      className="min-h-screen bg-transparent py-16 px-4"
+    >
+      <div className="max-w-6xl mx-auto">
+        <motion.h2 
+          initial={{ opacity: 0, y: -50 }}
+          whileInView={{ opacity: 1, y: 0 }}
+          transition={{ duration: 0.6 }}
+          className="text-6xl font-bold text-center mb-12 text-white"
+        >
+          Project 
+          <span className="bg-gradient-to-r from-purple-500 to-pink-600 text-transparent bg-clip-text">
+            {" "}Showcase
+          </span>
+        </motion.h2>
 
-        {/* Category Tabs */}
-        <div className="flex flex-wrap justify-center gap-4">
-          {categories.map(({ id, label, icon: Icon }) => (
-            <button
-              key={id}
-              onClick={() => setActiveCategory(id)}
-              className={`flex items-center gap-2 px-4 py-2 rounded-full transition-all duration-300
-                ${activeCategory === id 
-                  ? 'bg-purple-500 text-white shadow-lg shadow-purple-500/30'
-                  : 'bg-gray-800 text-gray-400 hover:bg-gray-700'}`}
+        {/* Category Filters */}
+        <div className="flex flex-wrap justify-center mb-12 space-x-2 sm:space-x-4">
+          {categories.map((category) => (
+            <motion.button
+              key={category.id}
+              whileHover={{ scale: 1.1 }}
+              whileTap={{ scale: 0.9 }}
+              onClick={() => setActiveCategory(category.id)}
+              className={`
+                flex items-center gap-2 px-4 py-2 rounded-full 
+                transition-all duration-300 mb-2
+                ${activeCategory === category.id 
+                  ? 'bg-gradient-to-r from-purple-500 to-pink-500 text-white' 
+                  : 'bg-white/10 text-gray-300 hover:bg-white/20'}
+                min-w-[120px] 
+              `}
             >
-              {Icon && <Icon />}
-              {label}
-            </button>
+              <category.icon className="w-5 h-5" />
+              <span className="text-sm">{category.label}</span>
+            </motion.button>
           ))}
         </div>
 
         {/* Projects Grid */}
-        <div 
-          className="grid grid-cols-1 md:grid-cols-2 gap-6"
-          style={{
-            '--stagger-delay': '100ms',
-          }}
-        >
-          {visibleProjects.map((project , index) => (
-            <ProjectCard 
-              key={project.title} 
-              project={project}
-              style={{
-                animationDelay: `calc(var(--stagger-delay) * ${index})`
-              }}
-            />
+        <div className="grid sm:grid-cols-2 lg:grid-cols-3 gap-6">
+          {visibleProjects.map((project, index) => (
+            <motion.div
+              key={project.title}
+              initial={{ opacity: 0, y: 50 }}
+              whileInView={{ opacity: 1, y: 0 }}
+              transition={{ 
+                duration: 0.6,
+                delay: index * 0.2
+              }} 
+              className={`
+                relative 
+                overflow-hidden 
+                rounded-lg 
+                border 
+                ${project.color.border}
+                transition-all 
+                duration-300 
+                transform 
+                hover:scale-105
+              `}
+            >
+              {/* Background dan Overlay */}
+              <div className={`absolute inset-0 ${project.color.bg} opacity-30`} />
+              <img 
+                src={project.image} 
+                alt={project.title} 
+                className="absolute inset-0 w-full h-full object-cover opacity-20" 
+              />
+
+              {/* Konten Utama */}
+              <div className="relative p-6 z-10">
+                <h3 className="text-xl font-bold text-white">{project.title}</h3>
+                <p className="text-gray-400 text-sm">{project.role} • {project.date}</p>
+                
+                {/* Tech Icons */}
+                <div className="flex flex-wrap gap-2 mt-2">
+                  {project.tech.map((TechIcon, i) => (
+                    <TechIcon 
+                      key={i} 
+                      className="w-5 h-5 text-purple-300 hover:text-white transition-colors" 
+                    />
+                  ))}
+                </div>
+
+                {/* Project Points */}
+                <ul className="mt-4 text-gray-300 text-sm space-y-1">
+                  {project.points.map((point, i) => (
+                    <li key={i} className="flex items-start">
+                      <span className="mr-2 text-purple-400">•</span>
+                      {point}
+                    </li>
+                  ))}
+                </ul>
+
+                {/* Links */}
+                <div className="mt-4 flex justify-between">
+                  <a href={project.github} target="_blank" rel="noopener noreferrer" className="text-purple-300 hover:underline">
+                    <FaGithub className="inline-block" /> GitHub
+                  </a>
+                  <a href="#" className="text-purple-300 hover:underline">
+                    <FaLink className="inline-block" /> Live Demo
+                  </a>
+                </div>
+              </div>
+            </motion.div>
           ))}
         </div>
       </div>
-    </div>
+    </motion.div>
   );
 };
 

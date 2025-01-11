@@ -2,6 +2,16 @@ import { useEffect, useState } from "react";
 import { motion, AnimatePresence } from "framer-motion";
 import { Typewriter } from "react-simple-typewriter";
 
+import { 
+  FaReact, 
+  FaNodeJs, 
+  FaHtml5, 
+  FaCss3Alt, 
+  FaJsSquare, 
+  FaVuejs, 
+  FaPython 
+} from 'react-icons/fa';
+
 // Particle Component
 const Particles = () => {
   const [particles, setParticles] = useState([]);
@@ -63,7 +73,7 @@ const CosmicGlow = () => {
   );
 };
 
-// SplineViewer Component remains the same
+// SplineViewer Component
 const SplineViewer = () => {
   const [isLoaded, setIsLoaded] = useState(false);
 
@@ -117,7 +127,7 @@ const SplineViewer = () => {
 const ModernCTAButton = ({ children, primary = false, href }) => (
   <motion.a
     href={href}
-    whileHover={{ scale: 1.05, boxShadow: "0 0 30px rgba(147, 51, 234, 0.3)" }}
+    whileHover={{ scale: 1.05, boxShadow: "0 0 30px rgba(244, 244, 244, 0.3)" }}
     whileTap={{ scale: 0.95 }}
     initial={{ opacity: 0, y: 20 }}
     animate={{ opacity: 1, y: 0 }}
@@ -185,11 +195,66 @@ const Counter = ({ number, label }) => {
   );
 };
 
+// Tambahkan komponen TechIcons
+const TechIcons = () => {
+  const icons = [
+    { Icon: FaReact, color: 'text-cyan-400', delay: 0.1 },
+    { Icon: FaNodeJs, color: 'text-green-500', delay: 0.2 },
+    { Icon: FaHtml5, color: 'text-orange-500', delay: 0.3 },
+    { Icon: FaCss3Alt, color: 'text-blue-500', delay: 0.4 },
+    { Icon: FaJsSquare, color: 'text-yellow-500', delay: 0.5 },
+    { Icon: FaVuejs, color: 'text-green-600', delay: 0.6 },
+    { Icon: FaPython, color: 'text-blue-600', delay: 0.7 }
+  ];
+
+  return (
+    <div className="absolute top-0 right-0  flex flex-col space-y-4 p-4">
+      {icons.map(({ Icon, color, delay }, index) => (
+        <motion.div
+          key={index}
+          initial={{ 
+            opacity: 0, 
+            x: 50,
+            rotate: -180
+          }}
+          animate={{ 
+            opacity: 1, 
+            x: 0,
+            rotate: 0,
+            transition: {
+              delay: delay,
+              type: "spring",
+              stiffness: 300,
+              damping: 10
+            }
+          }}
+          whileHover={{ 
+            scale: 1.2,
+            rotate: 360,
+            transition: { duration: 0.5 }
+          }}
+          className={`
+            ${color} 
+            text-4xl 
+            cursor-pointer 
+            hover:drop-shadow-[0_0_10px_currentColor]
+            transition-all 
+            duration-300
+          `}
+        >
+          <Icon />
+        </motion.div>
+      ))}
+    </div>
+  );
+};
+
 // Enhanced Main Hero Section Component
 const HeroSection = () => {
   return (
     <div className="relative min-h-screen flex items-center justify-center overflow-hidden bg-black font-['Plus Jakarta Sans'] antialiased">
       <CosmicGlow />
+      <TechIcons />
 
       <AnimatePresence>
         <div className="relative z-10 w-full max-w-[1600px] mx-auto px-6 py-12 flex flex-col lg:flex-row items-center justify-between">
@@ -208,9 +273,9 @@ const HeroSection = () => {
               transition={{ delay: 0.4 }}
               className="text-5xl lg:text-6xl font-bold tracking-tight leading-tight text-white"
             >
-              Everything App for your{" "}
+              Crafting Digital  {" "}
               <span className="text-transparent bg-clip-text bg-gradient-to-r from-purple-400 to-purple-600">
-                teams
+              Experiences 
               </span>
             </motion.h1>
 
@@ -222,7 +287,7 @@ const HeroSection = () => {
               className="text-xl lg:text-2xl text-gray-300 font-light"
             >
               <Typewriter
-                words={['Developer', 'Designer', 'Creator']}
+                words={[' Crafting interactive user interfaces with HTML, CSS, and JavaScript.', 'Experienced in creating cross-platform mobile applications', 'Skilled in back-end technologies such as Node.js and Express']}
                 loop={true}
                 cursor
                 cursorStyle='|'
@@ -239,7 +304,7 @@ const HeroSection = () => {
               exit={{ opacity: 0, y: 20 }}
               transition={{ delay: 0.8 }}
             >
-              <ModernCTAButton href="#projects" primary>VIEW PROJECTS</ModernCTAButton>
+              <ModernCTAButton href="#projects" primary>VIEW PROJECTS 𖥔</ModernCTAButton>
               <ModernCTAButton href="#contact">CONTACT ME</ModernCTAButton>
             </motion.div>
           </motion.div>
@@ -264,7 +329,8 @@ const HeroSection = () => {
           transition={{ duration: 0.8, delay: 1 }}
           className="relative z-10 w-full max-w-[1600px] mx-auto px-6 py-12 grid grid-cols-2 gap-6"
         >
-          <Counter number={5} label="Years Experience" />
+          <Counter number
+={5} label="Years Experience" />
           <Counter number={50} label="Projects Done" />
           <Counter number={30} label="Happy Clients" />
           <Counter number={99} label="Success Rate" />
