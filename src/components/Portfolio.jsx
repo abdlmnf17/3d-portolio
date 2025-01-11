@@ -19,12 +19,12 @@ const Preloader = ({ onComplete }) => {
   const [currentQuote, setCurrentQuote] = useState('');
   
   const quotes = [
-    "Design is not just what it looks like and feels like. Design is how it works.",
-    "Simplicity is the ultimate sophistication.",
-    "Innovation distinguishes between a leader and a follower.",
-    "Stay hungry, stay foolish.",
-    "The best way to predict the future is to create it."
-  ];
+    "Code is like humor. When you have to explain it, it’s bad.",
+    "Simplicity is the soul of efficiency.",
+    "First, solve the problem. Then, write the code.",
+    "In programming, the hard part isn’t solving problems, but deciding what problems to solve.",
+    "The best way to predict the future is to implement it."
+];
 
   useEffect(() => {
     // Randomly select a quote
@@ -149,7 +149,7 @@ const Preloader = ({ onComplete }) => {
           ref={nameRef}
           className="text-white text-4xl font-bold mb-12 tracking-wider [&>span]:mr-[0.1em]"
         >
-          Adam Darry Ilham
+          Adam Darry I.
         </h1>
         
         <div className="h-24 flex items-center justify-center overflow-hidden">

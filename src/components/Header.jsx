@@ -16,11 +16,7 @@ const Header = () => {
 
   // Prevent scroll when menu is open
   useEffect(() => {
-    if (isMenuOpen) {
-      document.body.style.overflow = 'hidden';
-    } else {
-      document.body.style.overflow = 'unset';
-    }
+    document.body.style.overflow = isMenuOpen ? 'hidden' : 'unset';
   }, [isMenuOpen]);
 
   const menuItems = [
@@ -33,17 +29,11 @@ const Header = () => {
   const menuVariants = {
     hidden: { 
       x: "100%",
-      transition: {
-        duration: 0.3
-      }
+      transition: { duration: 0.3 }
     },
     visible: { 
       x: 0,
-      transition: {
-        type: "spring",
-        stiffness: 300,
-        damping: 30
-      }
+      transition: { type: "spring", stiffness: 300, damping: 30 }
     }
   };
 
@@ -97,7 +87,7 @@ const Header = () => {
               href={item.href}
               whileHover={{ scale: 1.05 }}
               whileTap={{ scale: 0.95 }}
-              className="text-gray-300 hover:text-purple-400 transition-colors duration-300"
+              className="text-gray-300 hover:text-purple-400 transition-colors duration-300 text-lg font-medium"
             >
               {item.name}
             </motion.a>
@@ -129,7 +119,7 @@ const Header = () => {
             <motion.span
               animate={{
                 rotate: isMenuOpen ? -45 : 0,
-                y: isMenuOpen ? -8 : 0,
+                y: isMenuOpen ? - 8 : 0,
                 backgroundColor: isMenuOpen ? '#fff' : 'currentColor'
               }}
               className="absolute bottom-0 left-0 w-full h-0.5 bg-white transform origin-left"
